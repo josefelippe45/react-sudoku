@@ -1,10 +1,10 @@
 import React from 'react';
-
+import { Content } from './components';
 function App() {
   return (
-    <div className="App">
+    <Content>
       <p>Hello World</p>
-    </div>
+    </Content>
   );
 }
 
