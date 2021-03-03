@@ -1,5 +1,12 @@
 import { GRID, NUMBERS } from 'typings';
-import { isInRow, isInCol, shuffle } from 'utils';
+import {
+  isInRow,
+  isInCol,
+  shuffle,
+  identifySquare,
+  isInSquare,
+  checkGrid,
+} from 'utils';
 
 const numbers: NUMBERS[] = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
@@ -20,7 +27,13 @@ const fillGrid = (grid: GRID) => {
       for (let value of numbers) {
         if (!isInRow({ grid, row, value })) {
           if (!isInCol({ grid, col, value })) {
-            grid[row][col] = value;
+            const square = identifySquare({ col, grid, row });
+            if (!isInSquare({ square, value })) {
+              grid[row][col] = value;
+              if (checkGrid(grid)) return true;
+              //add recursive
+              else if (fillGrid(grid)) return true;
+            }
           }
         }
       }
