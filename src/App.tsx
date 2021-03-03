@@ -1,9 +1,12 @@
 import React from 'react';
-import { Content } from './components';
+import { Content, Grid, Card, Title } from './components';
 function App() {
   return (
     <Content>
-      <p>Hello World</p>
+      <Title>Sudoku</Title>
+      <Card>
+        <Grid />
+      </Card>
     </Content>
   );
 }
