@@ -24,7 +24,7 @@ const Block: FC<BlockProps> = ({ columnIndex, rowIndex }) => {
   );
   const dispatch = useDispatch<Dispatch<AnyAction>>();
   const handleClick = () => {
-    dispatch(selectBlock([rowIndex, columnIndex]));
+    !isActive && dispatch(selectBlock([rowIndex, columnIndex]));
   };
   return (
     <Container
