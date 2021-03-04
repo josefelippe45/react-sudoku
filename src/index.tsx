@@ -2,13 +2,19 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { GlobalStyles, theme } from './styles';
 import App from './App';
+import { Provider } from 'react-redux';
 import { ThemeProvider } from 'styled-components';
+import { configureStore } from 'core';
 import reportWebVitals from './reportWebVitals';
+
+const store = configureStore();
 
 ReactDOM.render(
   <ThemeProvider theme={theme}>
-    <GlobalStyles />
-    <App />
+    <Provider store={store}>
+      <GlobalStyles />
+      <App />
+    </Provider>
   </ThemeProvider>,
   document.getElementById('root')
 );
