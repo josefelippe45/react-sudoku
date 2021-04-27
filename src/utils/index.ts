@@ -6,3 +6,4 @@ export { default as checkGrid } from './check-grid';
 export { default as createFullGrid } from './create-full-grid';
 export { default as getRandomIndex } from './get-random-index';
 export { default as copyGrid } from './copy-grid';
+export { default as solveGrid } from './solve-grid';

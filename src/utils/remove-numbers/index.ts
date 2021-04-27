@@ -1,6 +1,6 @@
 import { GRID } from 'typings';
 import global from 'global';
-import { getRandomIndex, copyGrid } from 'utils';
+import { getRandomIndex, copyGrid, solveGrid } from 'utils';
 
 /**
  *
@@ -22,7 +22,7 @@ const removeNumbers = (grid: GRID, attempts = 5): GRID => {
 
     const gridCopy = copyGrid(grid);
     global.counter = 0;
-
+    solveGrid(gridCopy);
     if (global.counter !== 1) {
       grid[row][col] = backup;
       attempts--;
