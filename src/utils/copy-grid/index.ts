@@ -1,11 +1,7 @@
-import { GRID } from 'typings';
-import { fillGrid } from 'utils';
+import { GRID, INDEX } from 'typings';
 
-/**
- * create a full valid sudoku grid
- */
-const createFullGrid = (): GRID => {
-  const grid: GRID = [
+const copyGrid = (grid: GRID): GRID => {
+  const gridCopy: GRID = [
     [0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -16,7 +12,10 @@ const createFullGrid = (): GRID => {
     [0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0],
   ];
-  fillGrid(grid);
-  return grid;
+  for (let r: INDEX = 0; r < 9; r++)
+    for (let c: INDEX = 0; c < 9; c++) gridCopy[r][c] = grid[r][c];
+
+  return gridCopy;
 };
-export default createFullGrid;
+
+export default copyGrid;
