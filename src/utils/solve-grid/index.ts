@@ -28,6 +28,7 @@ const solveGrid = (grid: GRID) => {
             }
           }
       }
+      break;
     }
   }
   grid[row][col] = 0;
