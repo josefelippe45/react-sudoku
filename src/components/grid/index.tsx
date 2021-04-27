@@ -1,20 +1,25 @@
 import React, { FC, Children, useCallback, useEffect } from 'react';
 import useMouseTrap from 'react-hook-mousetrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { createGrid, IReducer, selectBlock } from 'reducers';
+import { createGrid, fillBlock, IReducer, selectBlock } from 'reducers';
 import { AnyAction, Dispatch } from 'redux';
-import { BLOCK_COORDS, INDEX } from 'typings';
+import { BLOCK_COORDS, INDEX, N, NUMBERS } from 'typings';
 import Block from './block';
 import { Container, Row } from './styles';
 
 interface IState {
   selectedBlock?: BLOCK_COORDS;
+  selectedValue?: N;
 }
 
 const Grid: FC = () => {
-  const { selectedBlock } = useSelector<IReducer, IState>(
-    ({ selectedBlock }) => ({
+  const state = useSelector<IReducer, IState>(
+    ({ selectedBlock, workingGrid }) => ({
       selectedBlock,
+      selectedValue:
+        workingGrid && selectedBlock
+          ? workingGrid[selectedBlock[0]][selectedBlock[1]]
+          : 0,
     })
   );
   const dispatch = useDispatch<Dispatch<AnyAction>>();
@@ -22,34 +27,64 @@ const Grid: FC = () => {
   useEffect(() => {
     create();
   }, [create]);
+
+  const fill = useCallback(
+    (n: NUMBERS) => {
+      if (state.selectedBlock && state.selectedValue === 0)
+        dispatch(fillBlock(n, state.selectedBlock));
+    },
+    [dispatch, state.selectedBlock, state.selectedValue]
+  );
+
   const moveDown = () => {
-    selectedBlock &&
-      selectedBlock[0] < 8 &&
+    state.selectedBlock &&
+      state.selectedBlock[0] < 8 &&
       dispatch(
-        selectBlock([(selectedBlock[0] + 1) as INDEX, selectedBlock[1]])
+        selectBlock([
+          (state.selectedBlock[0] + 1) as INDEX,
+          state.selectedBlock[1],
+        ])
       );
   };
   const moveLeft = () => {
-    selectedBlock &&
-      selectedBlock[1] > 0 &&
+    state.selectedBlock &&
+      state.selectedBlock[1] > 0 &&
       dispatch(
-        selectBlock([selectedBlock[0], (selectedBlock[1] - 1) as INDEX])
+        selectBlock([
+          state.selectedBlock[0],
+          (state.selectedBlock[1] - 1) as INDEX,
+        ])
       );
   };
   const moveRight = () => {
-    selectedBlock &&
-      selectedBlock[1] < 8 &&
+    state.selectedBlock &&
+      state.selectedBlock[1] < 8 &&
       dispatch(
-        selectBlock([selectedBlock[0], (selectedBlock[1] + 1) as INDEX])
+        selectBlock([
+          state.selectedBlock[0],
+          (state.selectedBlock[1] + 1) as INDEX,
+        ])
       );
   };
   const moveUp = () => {
-    selectedBlock &&
-      selectedBlock[0] > 0 &&
+    state.selectedBlock &&
+      state.selectedBlock[0] > 0 &&
       dispatch(
-        selectBlock([(selectedBlock[0] - 1) as INDEX, selectedBlock[1]])
+        selectBlock([
+          (state.selectedBlock[0] - 1) as INDEX,
+          state.selectedBlock[1],
+        ])
       );
   };
+  useMouseTrap('1', () => fill(1));
+  useMouseTrap('2', () => fill(2));
+  useMouseTrap('3', () => fill(3));
+  useMouseTrap('4', () => fill(4));
+  useMouseTrap('5', () => fill(5));
+  useMouseTrap('6', () => fill(6));
+  useMouseTrap('7', () => fill(7));
+  useMouseTrap('8', () => fill(8));
+  useMouseTrap('9', () => fill(9));
 
   useMouseTrap('down', moveDown);
   useMouseTrap('left', moveLeft);
