@@ -12,14 +12,19 @@ interface BlockProps {
 interface IState {
   value: N;
   isActive: boolean;
+  isPuzzle: boolean;
 }
 const Block: FC<BlockProps> = ({ columnIndex, rowIndex }) => {
-  const { value, isActive } = useSelector<IReducer, IState>(
-    ({ workingGrid, selectedBlock }) => ({
+  const { value, isActive, isPuzzle } = useSelector<IReducer, IState>(
+    ({ challengeGrid, workingGrid, selectedBlock }) => ({
       isActive: selectedBlock
         ? selectedBlock[0] === rowIndex && selectedBlock[1] === columnIndex
         : false,
       value: workingGrid ? workingGrid[rowIndex][columnIndex] : 0,
+      isPuzzle:
+        challengeGrid && challengeGrid[rowIndex][columnIndex] !== 0
+          ? true
+          : false,
     })
   );
   const dispatch = useDispatch<Dispatch<AnyAction>>();
@@ -31,6 +36,7 @@ const Block: FC<BlockProps> = ({ columnIndex, rowIndex }) => {
       active={isActive}
       data-cy={`block-${rowIndex}-${columnIndex}`}
       onClick={handleClick}
+      puzzle={isPuzzle}
     >
       {value === 0 ? '' : value}
     </Container>
